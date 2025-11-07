@@ -1,6 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
+<style type="text/css">
+    .pagination li {
+        float: left;
+        list-style-type: none;
+        margin: 5px;
+    }
+</style>
 <h1>Daftar produk kami</h1>
 <hr>
 <a href="/product/addProduct" type="button" class="btn btn-primary mb-3">Tambah Data</a>
@@ -16,7 +23,7 @@
         <b>Status Toko : </b> {{$data_toko['status_toko']}}
     </div>
     <div class="card-body">
-        <table class="table table-striped table-bordered">
+        <table class="table">
             <thead>
                 <tr>
                     <th scope="col">No</th>
@@ -28,21 +35,32 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data_produk as $item)
-                <tr>
-                    <th scope="row">{{$loop->iteration}}</th>
-                    <td>{{$item->name_product}}</td>
-                    <td>19</td>
-                    <td>Rp. 96.000</td>
-                    <td>Teh Inggris yang dikemas dalam 100gram.</td>
-                    <td>
-                        <button style="button" class="btn btn-danger">Delete</button>
-                        <button style="button" class="btn btn-warning">Edit</button>
-                    </td>
-                </tr>
-                @endforeach
+                <div class="container">
+                    @foreach ($data_produk as $item)
+                    <div>
+                        <tr>
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$item->name_product}}</td>
+                            <td>{{$item->stock_product}}</td>
+                            <td>{{$item->price_product}}</td>
+                            <td>{{$item->desc_product}}</td>
+                            <td>
+                                <button style="button" class="btn btn-danger">Delete</button>
+                                <button style="button" class="btn btn-warning">Edit</button>
+                            </td>
+                        </tr>
+
+                    </div>
+                    @endforeach
+                </div>
             </tbody>
         </table>
+
     </div>
+    {{ $data_produk -> links('pagination::bootstrap-5')}}
+    Halaman : {{ $data_produk->currentPage() }} <br />
+    Jumlah Data : {{ $data_produk->total() }} <br />
+    Data Per Halaman : {{ $data_produk->perPage() }} <br />
+
 </div>
 @endsection
